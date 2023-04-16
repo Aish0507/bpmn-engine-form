@@ -1,0 +1,7 @@
+<div [formGroup]="FormGroup" class="bpmn-engine-form__control bpmn-engine-form__control-transparent">
+    <input [formControlName]="field.name"
+        [ngClass]="{ 'empty' : !FormGroup.controls || !FormGroup.controls[field.name] || !FormGroup.controls[field.name].value }"
+        (ngModelChange)="changedEvent()" type="color" class="bpmn-engine-form__input">
+    <span
+        *ngIf="!FormGroup.controls || !FormGroup.controls[field.name] || !FormGroup.controls[field.name].value"></span>
+</div>

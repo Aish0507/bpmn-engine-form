@@ -1,0 +1,100 @@
+<div [formGroup]="FormGroup" class="bpmn-engine-form__control">
+    <span *ngIf="!field.disabled" class="bpmn-engine-form__icon bpmn-engine-form__icon-off">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+            <path
+                d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z" />
+        </svg>
+    </span>
+    <button #button [disabled]="field.disabled" type="button" class="bpmn-engine-form__select">
+        <span *ngIf="field.placeholder && (!field.value || field.multiple)" class="placeholder">{{ translations &&
+            translations[lang] && translations[lang][field.placeholder] ? translations[lang][field.placeholder] :
+            field.placeholder }}</span>
+        <span *ngIf="!field.placeholder && !field.multiple && !field.value" class="placeholder">{{ legends[lang] ?
+            legends[lang].SELECT : legends["en-US"].SELECT }}</span>
+        <span *ngIf="!field.placeholder && field.multiple" class="placeholder">{{ legends[lang] ? legends[lang].ADD :
+            legends["en-US"].ADD }}</span>
+        <div *ngIf="!field.multiple && field.option && field.value">
+            <span *ngIf="field.translate">{{ translations && translations[lang] && translations[lang][(field.prefix ||
+                "") + field.value[field.option.label]] ? translations[lang][(field.prefix || "") +
+                field.value[field.option.label]] : field.value[field.option.label] }}</span>
+            <span *ngIf="!field.translate">{{ field.value[field.option.label] }}</span>
+        </div>
+        <div *ngIf="!field.multiple && !field.option && field.value && field.value.label">
+            <span *ngIf="field.translate">{{ translations && translations[lang] && translations[lang][(field.prefix ||
+                "") + field.value.label] ? translations[lang][(field.prefix || "") + field.value.label] :
+                field.value.label }}</span>
+            <span *ngIf="!field.translate">{{ field.value.label }}</span>
+        </div>
+        <div *ngIf="!field.multiple && !field.option && field.value && !field.value.label">
+            <span *ngIf="field.translate">{{ translations && translations[lang] && translations[lang][(field.prefix ||
+                "") + field.value] ? translations[lang][(field.prefix || "") + field.value] : field.value }}</span>
+            <span *ngIf="!field.translate">{{ field.defaultValue?.label }}</span>
+        </div>
+        <section class="bpmn-engine-form__options">
+            <ul class="bpmn-engine-form__list bpmn-engine-form__scrollbar">
+                <li *ngIf="field.searchable && field.options && field.options.length > 0"
+                    class="bpmn-engine-form__option">
+                    <input #input (input)="filterOptions($event)"
+                        [placeholder]="legends[lang] ? legends[lang].SEARCH : legends['en-US'].SEARCH"
+                        class="bpmn-engine-form__search" type="text" spellcheck="false">
+                </li>
+                <li *ngIf="!field.optionsView || field.optionsView.length == 0"
+                    class="bpmn-engine-form__option bpmn-engine-form__option-empty">
+                    <div>
+                        <span>{{ legends[lang] ? legends[lang].EMPTY : legends["en-US"].EMPTY }}</span>
+                    </div>
+                </li>
+                <li *ngFor="let option of field.optionsView" (click)="selectOption(option)"
+                    class="bpmn-engine-form__option bpmn-engine-form__option-valid">
+                    <div *ngIf="field.option">
+                        <span *ngIf="field.translate">{{ translations && translations[lang] &&
+                            translations[lang][(field.prefix || "") + option[field.option.label]] ?
+                            translations[lang][(field.prefix || "") + option[field.option.label]] :
+                            option[field.option.label] }}</span>
+                        <span *ngIf="!field.translate">{{ option[field.option.label] }}</span>
+                    </div>
+                    <div *ngIf="!field.option && option.label">
+                        <span *ngIf="field.translate">{{ translations && translations[lang] &&
+                            translations[lang][(field.prefix || "") + option.label] ? translations[lang][(field.prefix
+                            || "") + option.label] : option.label }}</span>
+                        <span *ngIf="!field.translate">{{ option.label }}</span>
+                    </div>
+                    <div *ngIf="!field.option && !option.label">
+                        <span *ngIf="field.translate">{{ translations && translations[lang] &&
+                            translations[lang][(field.prefix || "") + option] ? translations[lang][(field.prefix || "")
+                            + option] : option }}</span>
+                        <span *ngIf="!field.translate">{{ option }}</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </button>
+    <input [formControlName]="field.name" (ngModelChange)="changedEvent()"
+        class="bpmn-engine-form__input bpmn-engine-form__input-hidden">
+</div>
+<div *ngIf="field.multiple" [ngClass]="{ 'bpmn-engine-form__items-disabled' : field.disabled }"
+    class="bpmn-engine-form__items bpmn-engine-form__scrollbar">
+    <div *ngFor="let item of (field.defaultValue ? field.defaultValue : field.value);let i = index"
+        class="bpmn-engine-form__item">
+        <div *ngIf="field.option">
+            <span *ngIf="field.translate">{{ translations && translations[lang] ? translations[lang][(field.prefix ||
+                "") + item[field.option.label]] : item[field.option.label] }}</span>
+            <span *ngIf="!field.translate">{{ item[field.option.label] }}</span>
+        </div>
+        <div *ngIf="!field.option && item.label">
+            <span *ngIf="field.translate">{{ translations && translations[lang] ? translations[lang][(field.prefix ||
+                "") + item.label] : item.label }}</span>
+            <span *ngIf="!field.translate">A-{{ item.label }}</span>
+        </div>
+        <div *ngIf="!field.option && !item.label">
+            <span *ngIf="field.translate">{{ translations && translations[lang] ? translations[lang][(field.prefix ||
+                "") + item] : item }}</span>
+            <span *ngIf="!field.translate">{{ item }}</span>
+        </div>
+        <svg *ngIf="!field.disabled" (click)="deleteOption(i)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+            <path
+                d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" />
+        </svg>
+    </div>
+</div>

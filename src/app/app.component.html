@@ -1,0 +1,6 @@
+<div>
+    <button (click)="compactLayout()">Compact-{{compactLayoutActive}}</button>
+    <bpmn-engine-form [form]="finalFormObj" (event)="otherEventHandler($event)"
+        (send)="formSubmitHandler($event)"></bpmn-engine-form>
+</div>
+<hr>

@@ -1,0 +1,9 @@
+<div [formGroup]="FormGroup" class="bpmn-engine-form__control bpmn-engine-form__control-transparent">
+    <input [formControlName]="field.name" name="{{field.name}}" (change)="changedEvent()" type="checkbox"
+        class="bpmn-engine-form__input">
+    <label></label>
+    <label>
+        <span>{{ translations && translations[lang] && translations[lang][field.text] ? translations[lang][field.text] :
+            field.text }}</span>
+    </label>
+</div>

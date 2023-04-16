@@ -1,0 +1,6 @@
+<div [formGroup]="FormGroup" class="bpmn-engine-form__control bpmn-engine-form__control-xl">
+    <textarea [formControlName]="field.name" [maxlength]="field.maxlength || 500"
+        [placeholder]="field.placeholder ? translations && translations[lang] && translations[lang][field.placeholder] ? translations[lang][field.placeholder] : field.placeholder : ''"
+        (ngModelChange)="changedEvent()" class="bpmn-engine-form__textarea bpmn-engine-form__scrollbar"
+        spellcheck="false" autocomplete="off"></textarea>
+</div>

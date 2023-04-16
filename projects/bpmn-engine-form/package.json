@@ -1,0 +1,18 @@
+{
+  "name": "bpmn-engine-form",
+  "version": "1.4.4",
+  "author": "Diego Daniel Caceres <diegodanielcaceres10@gmail.com> (https://github.com/diegodanielcaceres10)",
+  "keywords": [
+    "angular",
+    "json",
+    "form",
+    "frontend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diegodanielcaceres10/bpmn-engine-form"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

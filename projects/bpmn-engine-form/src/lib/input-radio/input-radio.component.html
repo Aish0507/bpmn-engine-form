@@ -1,0 +1,13 @@
+<div [formGroup]="FormGroup"
+    class="bpmn-engine-form__control bpmn-engine-form__control-wrap bpmn-engine-form__control-transparent">
+    <div *ngFor="let radio of field.options" class="bpmn-engine-form__radio">
+        <input [formControlName]="field.name" [value]="radio" (ngModelChange)="changedEvent()" type="radio"
+            class="bpmn-engine-form__input">
+        <label></label>
+        <label>
+            <span *ngIf="field.translate">{{ translations && translations[lang] && translations[lang][(field.prefix ||
+                "") + radio?.label] ? translations[lang][(field.prefix || "") + radio?.label] : radio?.label }}</span>
+            <span *ngIf="!field.translate">{{ radio?.label }}</span>
+        </label>
+    </div>
+</div>

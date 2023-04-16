@@ -1,0 +1,240 @@
+<div [formGroup]="FormGroup" class="bpmn-engine-form__control">
+    <span *ngIf="!field.disabled" class="bpmn-engine-form__icon bpmn-engine-form__icon-off">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+            <path
+                d="M152 64H296V24C296 10.75 306.7 0 320 0C333.3 0 344 10.75 344 24V64H384C419.3 64 448 92.65 448 128V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V128C0 92.65 28.65 64 64 64H104V24C104 10.75 114.7 0 128 0C141.3 0 152 10.75 152 24V64zM48 448C48 456.8 55.16 464 64 464H384C392.8 464 400 456.8 400 448V192H48V448z" />
+        </svg>
+    </span>
+    <button #button [disabled]="field.disabled" type="button" class="bpmn-engine-form__select" (blur)="blur()">
+        <span
+            *ngIf="field.placeholder && (!field.value || field.range && field.value && (!field.value[0] || !field.value[1]))"
+            class="placeholder">{{ translations && translations[lang] && translations[lang][field.placeholder] ?
+            translations[lang][field.placeholder] : field.placeholder }}</span>
+        <span
+            *ngIf="!field.placeholder && (!field.value || field.range && field.value && (!field.value[0] || !field.value[1]))"
+            class="placeholder">{{ legends[lang] ? legends[lang].SELECT : legends["en-US"].SELECT }}</span>
+        <div *ngIf="field.value && !field.range">
+            <span>{{ field.value | date: !lang || lang == "en-US" ? "MM/dd/YYYY" : "dd/MM/YYYY" }}</span>
+        </div>
+        <div *ngIf="field.value && field.value[0] && field.value[1] && field.range">
+            <span>{{ (field.value[0] | date: !lang || lang == "en-US" ? "MM/dd/YYYY" : "dd/MM/YYYY") + " - " +
+                (field.value[1] | date: !lang || lang == "en-US" ? "MM/dd/YYYY" : "dd/MM/YYYY") }}</span>
+        </div>
+        <section class="bpmn-engine-form__options">
+            <section class="bpmn-engine-form__calendar">
+                <div *ngIf="data.start && data.start.date" class="bpmn-engine-form__picker">
+                    <div *ngIf="mode == 'day'" class="bpmn-engine-form__header">
+                        <div (click)="changeMonth(-1)" class="bpmn-engine-form__arrow bpmn-engine-form__arrow-back">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+                            </svg>
+                        </div>
+                        <div class="bpmn-engine-form__datelegend bpmn-engine-form__datelegend-click">
+                            <span (click)="mode = 'month'">{{ data.start && data.start.date | date: "MMMM, YYYY"
+                                }}</span>
+                        </div>
+                        <div (click)="changeMonth(1)" [ngClass]="{ 'bpmn-engine-form__arrow-hide' : field.range }"
+                            class="bpmn-engine-form__arrow bpmn-engine-form__arrow-front">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div *ngIf="mode == 'day'" class="bpmn-engine-form__weeks">
+                        <div class="bpmn-engine-form__week">
+                            <div
+                                class="bpmn-engine-form__day bpmn-engine-form__day-header bpmn-engine-form__day-weekend">
+                                {{ legends[lang] ? legends[lang].SU : legends["en-US"].SU }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].MO : legends["en-US"].MO }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].TU : legends["en-US"].TU }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].WE : legends["en-US"].WE }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].TH : legends["en-US"].TH }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].FR : legends["en-US"].FR }}</div>
+                            <div
+                                class="bpmn-engine-form__day bpmn-engine-form__day-header bpmn-engine-form__day-weekend">
+                                {{ legends[lang] ? legends[lang].SA : legends["en-US"].SA }}</div>
+                        </div>
+                        <div *ngFor="let week of data.start.weeks" class="bpmn-engine-form__week">
+                            <div *ngFor="let day of week"
+                                (click)="day.date && (!field.range || (!field.value || field.value[1] || (field.value[0] && field.value[0] <= day.date && !field.value[1]))) && selectDate(day.date)"
+                                [ngClass]="{ 'bpmn-engine-form__day-weekend' : day.weekend, 'bpmn-engine-form__day-enabled' : day.date && (!field.range || (!field.value || field.value[1] || (field.value[0] && field.value[0] <= day.date && !field.value[1]))), 'bpmn-engine-form__day-disabled' : field.range && field.value && field.value[0] && field.value[0] > day.date && !field.value[1], 'bpmn-engine-form__day-selected' : (!field.range && field.value && field.value == day.date) || (field.range && field.value && field.value[0] && field.value[0] == day.date && field.value[1] && field.value[1] == day.date), 'bpmn-engine-form__day-start' : field.range && field.value && field.value[0] && field.value[0] == day.date && field.value[1] != day.date, 'bpmn-engine-form__day-end' : field.range && field.value && field.value[1] && field.value[1] == day.date && field.value[0] != day.date, 'bpmn-engine-form__day-middle' : field.range && field.value && field.value[0] && field.value[0] <= day.date && field.value[1] && field.value[1] > day.date }"
+                                class="bpmn-engine-form__day">{{ day.date | date: "d" }}</div>
+                        </div>
+                    </div>
+                    <div *ngIf="mode == 'month'" class="bpmn-engine-form__header">
+                        <div (click)="changeYear(-1)" class="bpmn-engine-form__arrow bpmn-engine-form__arrow-back">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+                            </svg>
+                        </div>
+                        <div class="bpmn-engine-form__datelegend bpmn-engine-form__datelegend-click">
+                            <span (click)="mode = 'year'">{{ data.start && data.start.date | date: "YYYY" }}</span>
+                        </div>
+                        <div (click)="changeYear(1)" class="bpmn-engine-form__arrow bpmn-engine-form__arrow-front">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div *ngIf="mode == 'month'" class="bpmn-engine-form__weeks">
+                        <div class="bpmn-engine-form__week">
+                            <div (click)="changeMonth(false, 0)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].JAN : legends["en-US"].JAN }}</div>
+                            <div (click)="changeMonth(false, 1)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].FEB : legends["en-US"].FEB }}</div>
+                            <div (click)="changeMonth(false, 2)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].MAR : legends["en-US"].MAR }}</div>
+                            <div (click)="changeMonth(false, 3)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].APR : legends["en-US"].APR }}</div>
+                        </div>
+                        <div class="bpmn-engine-form__week">
+                            <div (click)="changeMonth(false, 4)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].MAY : legends["en-US"].MAY }}</div>
+                            <div (click)="changeMonth(false, 5)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].JUN : legends["en-US"].JUN }}</div>
+                            <div (click)="changeMonth(false, 6)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].JUL : legends["en-US"].JUL }}</div>
+                            <div (click)="changeMonth(false, 7)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].AUG : legends["en-US"].AUG }}</div>
+                        </div>
+                        <div class="bpmn-engine-form__week">
+                            <div (click)="changeMonth(false, 8)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].SEP : legends["en-US"].SEP }}</div>
+                            <div (click)="changeMonth(false, 9)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].OCT : legends["en-US"].OCT }}</div>
+                            <div (click)="changeMonth(false, 10)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].NOV : legends["en-US"].NOV }}</div>
+                            <div (click)="changeMonth(false, 11)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ legends[lang] ?
+                                legends[lang].DEC : legends["en-US"].DEC }}</div>
+                        </div>
+                    </div>
+                    <div *ngIf="mode == 'year'" class="bpmn-engine-form__header">
+                        <div (click)="changeYear(-10)" class="bpmn-engine-form__arrow bpmn-engine-form__arrow-back">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+                            </svg>
+                        </div>
+                        <div class="bpmn-engine-form__datelegend">
+                            <span>{{ data.start.decade }} - {{ (data.start.decade + 9) }}</span>
+                        </div>
+                        <div (click)="changeYear(10)" class="bpmn-engine-form__arrow bpmn-engine-form__arrow-front">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div *ngIf="mode == 'year'" class="bpmn-engine-form__weeks">
+                        <div class="bpmn-engine-form__week">
+                            <div (click)="changeYear(false, data.start.decade)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade }}
+                            </div>
+                            <div (click)="changeYear(false, data.start.decade + 1)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade + 1 }}
+                            </div>
+                            <div (click)="changeYear(false, data.start.decade + 2)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade + 2 }}
+                            </div>
+                            <div (click)="changeYear(false, data.start.decade + 3)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade + 3 }}
+                            </div>
+                        </div>
+                        <div class="bpmn-engine-form__week">
+                            <div (click)="changeYear(false, data.start.decade + 4)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade + 4 }}
+                            </div>
+                            <div (click)="changeYear(false, data.start.decade + 5)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade + 5 }}
+                            </div>
+                            <div (click)="changeYear(false, data.start.decade + 6)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade + 6 }}
+                            </div>
+                            <div (click)="changeYear(false, data.start.decade + 7)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade + 7 }}
+                            </div>
+                        </div>
+                        <div class="bpmn-engine-form__week">
+                            <div (click)="changeYear(false, data.start.decade + 8)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade + 8 }}
+                            </div>
+                            <div (click)="changeYear(false, data.start.decade + 9)"
+                                class="bpmn-engine-form__day bpmn-engine-form__day-enabled">{{ data.start.decade + 9 }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="mode == 'day' && data.end && data.end.date && field.range" class="bpmn-engine-form__picker">
+                    <div class="bpmn-engine-form__header">
+                        <div class="bpmn-engine-form__datelegend bpmn-engine-form__datelegend-click">
+                            <span (click)="mode = 'month'">{{ data.end && data.end.date | date: "MMMM, YYYY" }}</span>
+                        </div>
+                        <div (click)="changeMonth(1)" class="bpmn-engine-form__arrow bpmn-engine-form__arrow-front">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="bpmn-engine-form__weeks">
+                        <div class="bpmn-engine-form__week">
+                            <div
+                                class="bpmn-engine-form__day bpmn-engine-form__day-header bpmn-engine-form__day-weekend">
+                                {{ legends[lang] ? legends[lang].SU : legends["en-US"].SU }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].MO : legends["en-US"].MO }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].TU : legends["en-US"].TU }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].WE : legends["en-US"].WE }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].TH : legends["en-US"].TH }}</div>
+                            <div class="bpmn-engine-form__day bpmn-engine-form__day-header">{{ legends[lang] ?
+                                legends[lang].FR : legends["en-US"].FR }}</div>
+                            <div
+                                class="bpmn-engine-form__day bpmn-engine-form__day-header bpmn-engine-form__day-weekend">
+                                {{ legends[lang] ? legends[lang].SA : legends["en-US"].SA }}</div>
+                        </div>
+                        <div *ngFor="let week of data.end.weeks" class="bpmn-engine-form__week">
+                            <div *ngFor="let day of week"
+                                (click)="day.date && (!field.range || (!field.value || field.value[1] || (field.value[0] && field.value[0] <= day.date && !field.value[1]))) && selectDate(day.date)"
+                                [ngClass]="{ 'bpmn-engine-form__day-weekend' : day.weekend, 'bpmn-engine-form__day-enabled' : day.date && (!field.range || (!field.value || field.value[1] || (field.value[0] && field.value[0] <= day.date && !field.value[1]))), 'bpmn-engine-form__day-disabled' : field.range && field.value && field.value[0] && field.value[0] > day.date && !field.value[1], 'bpmn-engine-form__day-selected' : (!field.range && field.value && field.value == day.date) || (field.range && field.value && field.value[0] && field.value[0] == day.date && field.value[1] && field.value[1] == day.date), 'bpmn-engine-form__day-start' : field.range && field.value && field.value[0] && field.value[0] == day.date && field.value[1] != day.date, 'bpmn-engine-form__day-end' : field.range && field.value && field.value[1] && field.value[1] == day.date && field.value[0] != day.date, 'bpmn-engine-form__day-middle' : field.range && field.value && field.value[0] && field.value[0] <= day.date && field.value[1] && field.value[1] > day.date }"
+                                class="bpmn-engine-form__day">{{ day.date | date: "d" }}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </button>
+    <input [formControlName]="field.name" (ngModelChange)="changedEvent()"
+        class="bpmn-engine-form__input bpmn-engine-form__input-hidden">
+</div>
